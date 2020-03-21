@@ -90,12 +90,12 @@ class Rim {
 
 	public String ArabToRim(String arabNumber) {
 
-		String result = "";
+		StringBuilder result = new StringBuilder();
 		
 		HashMap<Integer, List<String>> map = new HashMap<>();
-		map.put(1, Arrays.asList(new String[] {"I", "V", "X"}));
-		map.put(2, Arrays.asList(new String[] {"X", "L", "C"}));
-		map.put(3, Arrays.asList(new String[] {"C", "D", "M"}));
+		map.put(1, Arrays.asList("I", "V", "X"));
+		map.put(2, Arrays.asList("X", "L", "C"));
+		map.put(3, Arrays.asList("C", "D", "M"));
 		// result = map.get("1")[0];
 		String[] arabNumberArray = arabNumber.split("");
 
@@ -109,24 +109,24 @@ class Rim {
 				case "1": 
 				case "2":
 				case "3":
-					result += RepeatString(mapValues.get(0), Integer.parseInt(arabNumberArray[x]));
+					result.append(RepeatString(mapValues.get(0), Integer.parseInt(arabNumberArray[x])));
 					break;
 				case "4":
-					result += mapValues.get(0) + mapValues.get(1);
+					result.append(mapValues.get(0)).append(mapValues.get(1));
 					break;
 				case "5":
-					result += mapValues.get(1);
+					result.append(mapValues.get(1));
 					break;
 				case "6":
 				case "7":
 				case "8":
 					int five = 5;
 					int repeat = Integer.parseInt(arabNumberArray[x]) - five;
-					result += mapValues.get(1) + RepeatString(mapValues.get(0), repeat);
+					result.append(mapValues.get(1)).append(RepeatString(mapValues.get(0), repeat));
 					break;
 
 				case "9":
-					result += mapValues.get(0) + mapValues.get(2);
+					result.append(mapValues.get(0)).append(mapValues.get(2));
 					break;
 
 				default:
@@ -136,7 +136,7 @@ class Rim {
 
 
 
-	return result;
+	return result.toString();
 	}
 
 	public String RimToArab(String rimNumber) {
