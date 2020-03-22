@@ -1,4 +1,5 @@
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
@@ -6,62 +7,87 @@ import java.util.Arrays;
 import java.util.List;
 
 public class Main {
-  static String[] arabicNumbers = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10"};
-  static String[] signs = {"+", "-", "*", "/"};
-  static String[] rimskyNumbers = {"I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X"};
+  private static String[] arabicNumbers = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10"};
+  private static String[] signs = {"+", "-", "*", "/"};
+  private static String[] rimskyNumbers = {"I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X"};
 
-  // Ввод и проверка на ввод, возвращаем строку в массиве
-  static String[] start() {
+
+  // Ввод строки
+  static String start() throws IOException {
     System.out.println("Введите выражение: ");
     BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
-    String error = ("Некорректный ввод данных!");
-
-    try {
-      String input = bufferedReader.readLine();
-      String[] text = input.split(" ");
-
-      if (text.length != 3) {
-        System.out.println(error);
-      }
-
-      if (!Arrays.asList(signs).contains(text[1])) {
-        System.out.println(error);
-        ;
-      }
-
-      if (Arrays.asList(arabicNumbers).contains(text[0])
-          && Arrays.asList(arabicNumbers).contains(text[2])) {
-        return text;
-      }
-
-      if (Arrays.asList(rimskyNumbers).contains(text[0])
-          && Arrays.asList(rimskyNumbers).contains(text[2])) {
-        return text;
-      }
-
-    } catch (Exception e) {
-      System.out.println(error);
-    }
-    String[] zero = new String[0];
-    return zero;
+    String text = bufferedReader.readLine();
+    bufferedReader.close();
+    return text;
   }
 
-  // Проверяем римские или арабские цифры
-  static void languageNumbers(String[] text) {
-    if (text.length == 0) {
-      System.out.println("Ошибка! Число не больше 10!");
-    } else {
+  //определяем символ и запускаем нужную нам функцию
+  public static String calculate(String number1, String symbol, String number2, Function function) {
+    switch (symbol) {
+      case "+":
 
-      List<String> list = Arrays.asList(arabicNumbers);
-      if (list.indexOf(text[0]) < 0) {
-        Rimsky rimsky = new Rimsky(text[0], text[1], text[2]);
-      } else {
-        Arabic arabic = new Arabic(text[0], text[1], text[2]);
-      }
+        return function.addition(number1, number2);
+
+      case "-":
+        return function.subtraction(number1, number2);
+
+      case "*":
+        return function.multiply(number1, number2);
+
+      case "/":
+        return function.division(number1, number2);
+
+      default:
+        return "Неправильный символ!";
     }
-}
-  public static void main(String[] args) {
+  }
 
-    languageNumbers(start());
+
+
+  //разбиваем строку на массив
+  static  String[] convertText(String text){
+    return text.split(" ");
+  }
+
+  //провека на ввод
+  static  boolean checkText(String text) {
+    String[] str = convertText(text);
+    if (str.length != 3) {
+      return false;
+    }
+    return (isExpressionArgumentsValid(rimskyNumbers, str[0]) && isExpressionArgumentsValid(rimskyNumbers, str[2])
+            && isExpressionArgumentsValid(signs, str[1])) ||
+            (isExpressionArgumentsValid(arabicNumbers, str[0]) && isExpressionArgumentsValid(arabicNumbers, str[2])
+            && isExpressionArgumentsValid(signs, str[1]));
+
+  }
+
+  //проверка текста на вход в массив
+   static boolean isExpressionArgumentsValid(String[] alphabet, String text) {
+
+    return Arrays.asList(alphabet).contains(text);
+  }
+
+
+
+  // Проверяем римские или арабские цифры
+   static String languageNumbers(boolean b, String text) {
+    String[] str = convertText(text);
+    if (b) {
+      if (isExpressionArgumentsValid(rimskyNumbers, str[0])) {
+        return calculate(str[0], str[1], str[2], new Rimsky());
+      }
+      else  {
+        return calculate(str[0], str[1], str[2], new Arabic());
+      }
+    } else return "Неправльно ввели данные!";
+}
+
+
+
+  public static void main(String[] args) throws IOException {
+    String text = start();
+    String result = languageNumbers(checkText(text), text);
+    System.out.println(result);
   }
 }
