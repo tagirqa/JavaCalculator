@@ -5,6 +5,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 public class Main {
   private static String[] arabicNumbers = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10"};
@@ -15,32 +16,39 @@ public class Main {
   // Ввод строки
   static String start() throws IOException {
     System.out.println("Введите выражение: ");
-    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
-    String text = bufferedReader.readLine();
-    bufferedReader.close();
-    return text;
-  }
+    try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in))) {
+      String text = bufferedReader.readLine();
+      bufferedReader.close();
+      return text;
+    } catch (Exception e) {
 
-  //определяем символ и запускаем нужную нам функцию
-  public static String calculate(String number1, String symbol, String number2, Function function) {
-    switch (symbol) {
-      case "+":
-
-        return function.addition(number1, number2);
-
-      case "-":
-        return function.subtraction(number1, number2);
-
-      case "*":
-        return function.multiply(number1, number2);
-
-      case "/":
-        return function.division(number1, number2);
-
-      default:
-        return "Неправильный символ!";
+return e.toString(); // не совсем могу понять, как правильно закончить этот блок
     }
+
   }
+
+  // определяем символ и запускаем нужную нам функцию
+  public static String calculate(String number1, String symbol, String number2, Function function) {
+    try {
+      switch (symbol) {
+        case "+":
+          return function.addition(number1, number2);
+
+        case "-":
+          return function.subtraction(number1, number2);
+
+        case "*":
+          return function.multiply(number1, number2);
+
+        case "/":
+          return function.division(number1, number2);
+
+      }
+    } catch (Exception e) {
+      System.out.println(e);
+    }
+    return null;
+        }
 
 
 
@@ -71,23 +79,23 @@ public class Main {
 
 
   // Проверяем римские или арабские цифры
-   static String languageNumbers(boolean b, String text) {
+   static String languageNumbers( String text) {
     String[] str = convertText(text);
-    if (b) {
+
       if (isExpressionArgumentsValid(rimskyNumbers, str[0])) {
         return calculate(str[0], str[1], str[2], new Rimsky());
       }
       else  {
         return calculate(str[0], str[1], str[2], new Arabic());
       }
-    } else return "Неправльно ввели данные!";
+
 }
 
 
 
   public static void main(String[] args) throws IOException {
     String text = start();
-    String result = languageNumbers(checkText(text), text);
+    String result = checkText(text) ? languageNumbers(text) : "Неправльно ввели данные!";
     System.out.println(result);
   }
 }

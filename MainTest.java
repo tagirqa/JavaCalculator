@@ -87,24 +87,16 @@ public class MainTest {
 
   @Test
   public void languageNumbers() {
-    String text = "I + 3";
+
     String text1 = "II * IV";
-    String text2 = "helloWorld";
-    String text3 = "IV + i";
     String text4 = "7 * 3";
-    String text5 = "g / 3";
-    String text6 = "";
     String text7 = "I + I";
 
 
-    Assert.assertEquals(Main.languageNumbers(Main.checkText(text), text), "Неправльно ввели данные!");
-    Assert.assertEquals(Main.languageNumbers(Main.checkText(text1), text1), "VIII");
-    Assert.assertEquals(Main.languageNumbers(Main.checkText(text2), text2), "Неправльно ввели данные!");
-    Assert.assertEquals(Main.languageNumbers(Main.checkText(text3), text3), "Неправльно ввели данные!");
-    Assert.assertEquals(Main.languageNumbers(Main.checkText(text4), text4), "21");
-    Assert.assertEquals(Main.languageNumbers(Main.checkText(text5), text5), "Неправльно ввели данные!");
-    Assert.assertEquals(Main.languageNumbers(Main.checkText(text6), text6), "Неправльно ввели данные!");
-    Assert.assertEquals(Main.languageNumbers(Main.checkText(text7), text7), "II");
+
+    Assert.assertEquals(Main.languageNumbers(text1), "VIII");
+    Assert.assertEquals(Main.languageNumbers(text4), "21");
+    Assert.assertEquals(Main.languageNumbers( text7), "II");
 
 
   }
