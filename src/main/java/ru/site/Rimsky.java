@@ -1,5 +1,4 @@
-import java.util.*;
-import java.util.stream.Collectors;
+package ru.site;
 
 public class Rimsky implements Function {
 

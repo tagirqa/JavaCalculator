@@ -1,3 +1,5 @@
+package ru.site;
+
 public interface Function {
 
 

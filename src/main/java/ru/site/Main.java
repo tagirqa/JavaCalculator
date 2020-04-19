@@ -1,11 +1,9 @@
+package ru.site;
+
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 public class Main {
   private static String[] arabicNumbers = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10"};
@@ -53,12 +51,12 @@ return e.toString(); // не совсем могу понять, как прав
 
 
   //разбиваем строку на массив
-  static  String[] convertText(String text){
+  public static  String[] convertText(String text){
     return text.split(" ");
   }
 
   //провека на ввод
-  static  boolean checkText(String text) {
+  public static  boolean checkText(String text) {
     String[] str = convertText(text);
     if (str.length != 3) {
       return false;
@@ -71,7 +69,7 @@ return e.toString(); // не совсем могу понять, как прав
   }
 
   //проверка текста на вход в массив
-   static boolean isExpressionArgumentsValid(String[] alphabet, String text) {
+   public static boolean isExpressionArgumentsValid(String[] alphabet, String text) {
 
     return Arrays.asList(alphabet).contains(text);
   }
@@ -79,7 +77,7 @@ return e.toString(); // не совсем могу понять, как прав
 
 
   // Проверяем римские или арабские цифры
-   static String languageNumbers( String text) {
+   public static String languageNumbers(String text) {
     String[] str = convertText(text);
 
       if (isExpressionArgumentsValid(rimskyNumbers, str[0])) {

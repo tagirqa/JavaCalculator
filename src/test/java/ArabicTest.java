@@ -1,7 +1,8 @@
+
+
+import ru.site.Arabic;
 import org.junit.Assert;
 import org.junit.Test;
-
-import static org.junit.Assert.*;
 
 public class ArabicTest {
 
